@@ -1,4 +1,7 @@
 'use client';
+
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import AppHeader from "@/app/components/app.header";
 import AppFooter from "@/app/components/app.footer";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,6 +19,7 @@ export default function RootLayout({
           {children}
         </Container>
         <AppFooter />
+        <ToastContainer />
       </body>
     </html>
   );
