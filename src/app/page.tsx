@@ -1,6 +1,16 @@
+'use client';
+import { useEffect } from 'react';
 import Link from 'next/link'
 import AppTable from './components/app.table';
 const Home = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:8000/blogs');
+      const data = await response.json();
+      console.log(data);
+    }
+    fetchData();
+  }, [])
   return (
     <div>
       <h1>Home</h1>
