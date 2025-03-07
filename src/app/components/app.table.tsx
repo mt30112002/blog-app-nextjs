@@ -2,14 +2,21 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap';
 import CreateModal from './create.modal';
+import UpdateModel from './update.modal';
+import DeleteModal from './delete.model';
 import { useState } from 'react';
 interface IProps {
   blogs: IBlog[];
 }
 const AppTable = (props: IProps) => {
+
     const { blogs } = props;
-    const  [showModalCreate, setShowModalCreate] = useState<boolean>(false);
+    const [blog, setBlog] = useState<IBlog | null>(null);
+    const [showModelEdit, setShowModelEdit] = useState<boolean>(false);
+    const [showModelDelete, setShowModelDelete] = useState<boolean>(false);
+    const [showModalCreate, setShowModalCreate] = useState<boolean>(false);
     const sortedBlogs = [...blogs].sort((a, b) => b.id - a.id);
+
     return (
       <>
         <div className='mb-3 d-flex justify-content-between'>
@@ -26,23 +33,34 @@ const AppTable = (props: IProps) => {
             </tr>
           </thead>
           <tbody>
-            {sortedBlogs?.map((blog, index) => (
-              <tr key={blog.id}>
+            {sortedBlogs?.map((item, index) => (
+              <tr key={item.id}>
                 <td>{index + 1}</td>
-                <td>{blog.title}</td>
-                <td>{blog.author}</td>
+                <td>{item.title}</td>
+                <td>{item.author}</td>
                 <td>
                   <Button>View</Button>
-                  <Button variant='warning' className='mx-3'>
+                  <Button variant='warning' className='mx-3'                    
+                  onClick={() => {
+                    setBlog(item); // Gán blog vào state
+                    setShowModelEdit(true); // Hiển thị modal edit
+                  }}>
                     Edit
                   </Button>
-                  <Button variant='danger'>Delete</Button>
+                  <Button variant='danger' 
+                  onClick={() => {
+                    setBlog(item); // Gán blog vào state
+                    setShowModelDelete(true); // Hiển thị modal edit
+                  }}>
+                    Delete</Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </Table>
         <CreateModal showModalCreate={showModalCreate} setShowModalCreate={setShowModalCreate}/>
+        <UpdateModel showModelEdit={showModelEdit} setShowModelEdit={setShowModelEdit} blog={blog} setBlog={setBlog}/>
+        <DeleteModal showModelDelete={showModelDelete} setShowModelDelete={setShowModelDelete} blog={blog} setBlog={setBlog}/>
       </>
     );
 };
